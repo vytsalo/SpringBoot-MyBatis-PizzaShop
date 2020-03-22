@@ -27,6 +27,7 @@ public class Order {
     //Статус заказа
     private Status status;
 
+    //string_agg(actor, ', ')
 
     //todo на форме сделать эмуляцию доставки, чтобы можно было посмотреть статус заказа
     //заказали, через 5 секунд сменяется статус на в пути, через 35 секунд доставлен
@@ -53,6 +54,7 @@ public class Order {
 
     //bill - total - считается из суммы всех итемсов
     //счёт
+    //Хранить ли в бд?
     private Double total;
 
     public Integer getId() {

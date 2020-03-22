@@ -22,17 +22,6 @@ public class EmployeeMapperImpl implements ProviderMethodResolver{
                 SELECT("*").
                 FROM(tableName).
                 WHERE("ID = #{id}").toString();
-
-
-        /*
-        return new SQL()
-    .SELECT("id", "name")
-    .FROM("PERSON")
-    .LIMIT("#{limit}")
-    .OFFSET("#{offset}")
-    .toString();*/
-
-
     }
 
     public String delete(){
@@ -41,31 +30,42 @@ public class EmployeeMapperImpl implements ProviderMethodResolver{
                 WHERE("ID = #{id}").toString();
     }
 
-    //todo public?
     public String getMaxId(){
         return new SQL().
                 SELECT("MAX(id)").
                 FROM(tableName).toString();
     }
 
+    //обработки ошибок?
+    //+ %value%
+    //personMapper.findByColumn("name","Arnold");
     public String findByColumn(){
         return new SQL().
                 SELECT("*").
                 FROM(tableName).
-                WHERE("${column} = %#{value}%").toString();
+                WHERE("${column} = #{value}").toString();
     }
-
-    /*
-    *  String insert = "INSERT INTO Employee " +
-                    "(name, surname, patronymic, dateOfBirth, phone, email ) " +
-                    "VALUES (#{name}, #{surname}, #{patronymic}, #{dateOfBirth}, #{phone}, #{email})";*/
 
     public String insert(){
         return new SQL().
                 INSERT_INTO(tableName).
-                SET("name, surname, patronymic, dateOfBirth, phone, email").
-                INTO_VALUES("#{name}, #{surname}, #{patronymic}, #{dateOfBirth}, #{phone}, #{email}").toString();
+                VALUES("name, surname, patronymic, dateOfBirth, phone, email",
+                        "#{name}, #{surname}, #{patronymic}, #{dateOfBirth}, #{phone}, #{email}").toString();
     }
+
+    public String update(){
+        return new SQL().
+                UPDATE(tableName).
+                SET("name = #{name}, surname = #{surname}, patronymic = #{patronymic}, " +
+                "phone = #{phone}, email = #{email}").
+                WHERE("id = #{id}").toString();
+    }
+
+
+
+
+
+
 
     /*
       InsertStatementProvider<SimpleTableRecord> insertStatement = insert(record)
@@ -78,6 +78,14 @@ public class EmployeeMapperImpl implements ProviderMethodResolver{
             .map(occupation).toProperty("occupation")
             .build()
             .render(RenderingStrategies.MYBATIS3);*/
+
+        /*
+        return new SQL()
+    .SELECT("id", "name")
+    .FROM("PERSON")
+    .LIMIT("#{limit}")
+    .OFFSET("#{offset}")
+    .toString();*/
 
 
 }

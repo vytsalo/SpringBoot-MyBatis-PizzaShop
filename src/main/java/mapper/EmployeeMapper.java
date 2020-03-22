@@ -14,26 +14,9 @@ import java.util.List;
 
 //todo personName impl EmployeeMapperImpl ->
 //https://www.codeflow.site/ru/article/mybatis
-
+@SuppressWarnings("unused")
 public interface EmployeeMapper {
 
-   /* String getById = "SELECT * FROM Employee " +
-                     "WHERE ID = #{id}";
-*/
-    /*String deleteById = "DELETE from Employee " +
-                        "WHERE ID = #{id}";*/
-
-   /* String insert = "INSERT INTO Employee " +
-                    "(name, surname, patronymic, dateOfBirth, phone, email ) " +
-                    "VALUES (#{name}, #{surname}, #{patronymic}, #{dateOfBirth}, #{phone}, #{email})";
-*/
-    String update = "UPDATE Employee SET " +
-                    "(name = #{name}, surname = #{surname}, patronymic = #{patronymic}, " +
-                    "phone = #{phone}, email = #{email} ) " +
-                    "WHERE id = #{id}";
-
-
-    //@Select("select max(id) from Employee")
     @SelectProvider(type = EmployeeMapperImpl.class)
     Integer getMaxId();
 
@@ -43,21 +26,18 @@ public interface EmployeeMapper {
     @SelectProvider(type = EmployeeMapperImpl.class)
     Employee getById(int id);
 
-    @SelectProvider(type = EmployeeMapperImpl.class)
+    @DeleteProvider(type = EmployeeMapperImpl.class)
     void delete(int id);
 
-
-
-
-    //%value%
-    //@Select("select * from user where ${column} = #{value}")
     @SelectProvider(type = EmployeeMapperImpl.class)
-    Employee findByColumn(@Param("column") String column, @Param("value") String value);
+    List<Employee> findByColumn(@Param("column") String column, @Param("value") String value);
 
-
-
-    @Update(update)
+    @UpdateProvider(type = EmployeeMapperImpl.class)
     void update(Employee employee);
+
+    @InsertProvider(type = EmployeeMapperImpl.class)
+    void insert(Employee employee);
+
 
     //todo сделать каждую сущность отдельным методом(фул интерфейс, класс с SQL, и actionProvider)
 
@@ -73,16 +53,12 @@ public interface EmployeeMapper {
             .render(RenderingStrategies.MYBATIS3);
 */
 /*
+    //@Options(useGeneratedKeys = true, keyProperty = "id")
+
     @InsertProvider(type=SqlProviderAdapter.class, method="insert")
     int insert(InsertStatementProvider<SimpleTableRecord> insertStatement);*/
 
 //todo сделать для наглядности несколькими способами
-
-
-    //@Insert(insert)
-    @InsertProvider(type = EmployeeMapperImpl.class)
-    //@Options(useGeneratedKeys = true, keyProperty = "id")
-    void insert(Employee employee);
 
 
 
@@ -93,7 +69,7 @@ public interface EmployeeMapper {
     //job-Employees-links - a table for description communication between Employees and jobs
     //отдельную сущность делать?
     @Select("inner join")
-    List<Object> getAllEmployeesWithJob();
+    List<Object> getAllEmployeesWithOrders();
     //getLastOrdersWithItems
     //
 

@@ -1,7 +1,9 @@
 package app;
 
 import entities.Employee;
+import entities.Item;
 import mapper.EmployeeMapper;
+import mapper.ItemMapper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -16,9 +18,15 @@ import java.util.Date;
 public class Application implements CommandLineRunner {
 
   //todo add mybatis sql queries logs
+  //todo Один интерфейс пёрсон маппер, а реализуют его классы, которые используют dynamic SQL
+
 
   @Autowired
   private EmployeeMapper personMapper;
+
+
+  @Autowired
+  private ItemMapper itemMapper;
 
   public static void main(String[] args) {
     SpringApplication.run(Application.class, args);
@@ -27,11 +35,12 @@ public class Application implements CommandLineRunner {
   @Override
   public void run(String... args) throws Exception {
 
-    //todo Один интерфейс пёрсон маппер, а реализуют его классы, которые используют dynamic SQL
+
+    itemMapper.getAll().forEach(t -> System.out.println(t));
+
+/*
     for (int i = 0; i < 10; i++)
       personMapper.insert((Employee) Utils.fillRandomRecord(new Employee()));
-
-      System.out.println("Insertion completed");
 
       personMapper.getAll().forEach(t -> System.out.println(t.toString()));
 
@@ -45,8 +54,10 @@ public class Application implements CommandLineRunner {
 
 
       personMapper.delete(4);
+*/
 
 
+/*
       System.out.println("Deletion completed");
 
 
@@ -55,6 +66,8 @@ public class Application implements CommandLineRunner {
       personMapper.update(temp);
 
       System.out.println("Updating completed");
+*/
+
      /* return new SQL()
               .SELECT("id", "name")
               .FROM("PERSON")

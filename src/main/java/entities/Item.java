@@ -59,4 +59,25 @@ public class Item {
     public void setPicUrl(String picUrl) {
         this.picUrl = picUrl;
     }
+
+    public Item() {
+    }
+
+    public Item(String title, String description, Double price, String picUrl) {
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.picUrl = picUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", picUrl='" + picUrl + '\'' +
+                '}';
+    }
 }
